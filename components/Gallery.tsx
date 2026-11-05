@@ -12,12 +12,20 @@ type Status = "all" | "found" | "todo";
 const STATUSES: { key: Status; label: string }[] = [
   { key: "all", label: "All" },
   { key: "found", label: "Discovered" },
-  { key: "todo", label: "Still to find" },
+  { key: "todo", label: "To learn" },
 ];
 
 export default function Gallery({ items }: { items: GalleryItem[] }) {
   const [status, setStatus] = useState<Status>("all");
   const [category, setCategory] = useState<Category | null>(null);
+
+  // Counts follow the category filter, so they always match what you'd see after clicking.
+  const inCategory = items.filter((l) => category === null || l.category === category);
+  const counts: Record<Status, number> = {
+    all: inCategory.length,
+    found: inCategory.filter((l) => l.day !== null).length,
+    todo: inCategory.filter((l) => l.day === null).length,
+  };
 
   const visible = items.filter((l) => {
     const found = l.day !== null;
@@ -29,16 +37,20 @@ export default function Gallery({ items }: { items: GalleryItem[] }) {
   return (
     <div className="stack">
       <div className="filters rise d2">
-        <div className="group" role="group" aria-label="Status">
+        <div className="status" role="group" aria-label="Show">
           {STATUSES.map(({ key, label }) => (
-            <button key={key} className="f" aria-pressed={status === key} onClick={() => setStatus(key)}>
-              {label}
+            <button key={key} aria-pressed={status === key} onClick={() => setStatus(key)}>
+              {label} <span className="n">{counts[key]}</span>
             </button>
           ))}
         </div>
         <div className="group" role="group" aria-label="Category">
+          <span className="label">Category</span>
+          <button className="chip" aria-pressed={category === null} onClick={() => setCategory(null)}>
+            All categories
+          </button>
           {CATEGORIES.map((c) => (
-            <button key={c} className="f" aria-pressed={category === c} onClick={() => setCategory(category === c ? null : c)}>
+            <button key={c} className="chip" aria-pressed={category === c} onClick={() => setCategory(c)}>
               <span className="sq" style={categoryStyle(c)} />
               {c}
             </button>

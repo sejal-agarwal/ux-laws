@@ -70,11 +70,19 @@ a { color: inherit; }
 @keyframes grow { from { transform: scaleX(0); } }
 
 /* filters */
-.filters { display: flex; flex-wrap: wrap; gap: 12px 36px; align-items: baseline; }
-.group { display: flex; flex-wrap: wrap; gap: 8px 22px; }
-.f { border: 0; border-bottom: 2px solid transparent; background: none; padding: 0 0 3px; font-weight: 600; font-size: 14px; color: var(--muted); display: inline-flex; align-items: center; gap: 8px; transition: color .15s, border-color .15s; }
-.f:hover { color: var(--ink); }
-.f[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.filters { display: flex; flex-wrap: wrap; gap: 14px 32px; align-items: center; }
+/* what to show: a segmented control with counts */
+.status { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); }
+.status button { display: inline-flex; align-items: center; gap: 8px; border: 0; border-radius: 6px; background: none; padding: 6px 14px; font: 600 14px var(--font); color: var(--muted); cursor: pointer; transition: color .15s, background .15s; }
+.status button:hover { color: var(--ink); }
+.status button[aria-pressed="true"] { background: var(--line); color: var(--ink); }
+.status .n { font-size: 12px; opacity: .7; }
+/* category: separate pills you can toggle on and off */
+.group { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.group .label { margin-right: 4px; }
+.chip { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 99px; background: none; padding: 4px 12px; font: 600 14px var(--font); color: var(--muted); cursor: pointer; transition: color .15s, border-color .15s, background .15s; }
+.chip:hover { color: var(--ink); border-color: var(--brown); }
+.chip[aria-pressed="true"] { color: var(--ink); border-color: var(--ink); background: var(--card); }
 .sq { width: 8px; height: 8px; border-radius: 2px; background: var(--c); display: inline-block; flex: none; }
 
 /* gallery */
