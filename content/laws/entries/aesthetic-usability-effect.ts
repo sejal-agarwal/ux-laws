@@ -6,7 +6,12 @@ export default defineLaw({
   date: "2026-11-04",
   blurb: "Users perceive aesthetic designs as more usable.",
   notes: [
-    "When I read about this law, my gut reaction was, obviously. Of course I trust aesthetic designs more, not only because they they look better, but they feel more enjoyable to use. The first thought that came to my mind is comparing a a simple plain text HTML button verses a beautifully designed button with distinct colours, hover effects, and nice typography. Both buttons might work exactly the same, but I can definitely see how people would be less drawn to using the plain text HTML button over the fancy, well-designed button."
+    "The Aesthetic-Usability Effect claims that users perceive aesthetic designs as more usable. When I think about my daily life and what types of interfaces I prefer, I definitely trust aesthetic designs more, not only because they look better, but because they feel more enjoyable to use.",
+
+    "The first example that came to my mind was comparing a simple plain text HTML button versus a beautifully designed button with distinct colours, hover effects, and nice typography. Both buttons might work exactly the same, but I can definitely see how people would be less drawn to using the plain text HTML button over the fancy, well-designed button, thus making the well-designed button more “usable”.",
+  ],
+  exampleNotes: [
+    "Another interesting phenomenon of this law is that when a user is presented with a more aesthetically pleasing design, they tend to be more forgiving to minor usability errors. This illustrates how good design can help cover up for minor issues when navigating user interfaces.",
   ],
   Compare: { Before, After },
   captions: {

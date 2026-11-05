@@ -25,6 +25,12 @@ export type LawEntry = {
   /** Or one client component behind a Counter-example / Applied toggle. It reads the current
    *  version with useMode(). */
   Demo?: ComponentType;
+  /** A short write-up shown under the example. One string per paragraph; empty strings are skipped. */
+  exampleNotes?: string[];
+  /** Or one client component shown on its own, with no counter-example and no toggle. Use
+   *  `caption` for the line under it. */
+  Example?: ComponentType;
+  caption?: string;
   /** What the example will be, shown until you build `Demo`. */
   sketch?: string;
   /** Captions under the example. Falls back to a generic pair. */

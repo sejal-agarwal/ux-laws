@@ -6,7 +6,7 @@ import Comparison from "@/components/Comparison";
 import ExampleSection from "@/components/ExampleSection";
 import LawArt from "@/components/LawArt";
 import Sketch from "@/components/Sketch";
-import { getDiscovered, getNeighbours } from "@/content/laws";
+import { getDiscovered } from "@/content/laws";
 import { CATALOG } from "@/content/laws/catalog";
 import { categoryStyle } from "@/lib/categories";
 import { formatLong } from "@/lib/dates";
@@ -53,8 +53,7 @@ async function Law({ params }: Pick<PageProps<"/laws/[slug]">, "params">) {
   if (!law) notFound();
 
   const { entry } = law;
-  const { prev, next } = getNeighbours(slug);
-  const { Compare, Demo } = entry;
+  const { Compare, Demo, Example } = entry;
 
   return (
     <>
@@ -81,7 +80,15 @@ async function Law({ params }: Pick<PageProps<"/laws/[slug]">, "params">) {
         </div>
       </section>
 
-      {Compare ? (
+      {Example ? (
+        <section className="sec plain rise d5">
+          <div className="sechead">
+            <h2>Example</h2>
+          </div>
+          <div className="frame"><Example /></div>
+          {entry.caption && <p className="caption">{entry.caption}</p>}
+        </section>
+      ) : Compare ? (
         <Comparison before={<Compare.Before />} after={<Compare.After />} captions={entry.captions} />
       ) : (
         <ExampleSection key={slug} captions={entry.captions}>
@@ -89,14 +96,13 @@ async function Law({ params }: Pick<PageProps<"/laws/[slug]">, "params">) {
         </ExampleSection>
       )}
 
-      <nav className="pager rise d6" aria-label="Neighbouring laws">
-        {prev ? (
-          <Link href={`/laws/${prev.slug}`}><span className="label">← Earlier</span><b>{prev.name}</b></Link>
-        ) : <span />}
-        {next && (
-          <Link className="r" href={`/laws/${next.slug}`}><span className="label">Later →</span><b>{next.name}</b></Link>
-        )}
-      </nav>
+      {entry.exampleNotes?.some((n) => n.trim()) && (
+        <section className="sec plain rise d5">
+          <div className="prose">
+            {entry.exampleNotes.filter((n) => n.trim()).map((n) => <p key={n}>{n}</p>)}
+          </div>
+        </section>
+      )}
     </>
   );
 }

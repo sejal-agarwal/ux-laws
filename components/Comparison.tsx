@@ -10,7 +10,7 @@ type Props = {
  *  the two sides are the entry's own client components, passed in as elements. */
 export default function Comparison({ before, after, captions }: Props) {
   return (
-    <section className="sec rise d5">
+    <section className="sec plain rise d5">
       <div className="sechead">
         <h2>Example</h2>
       </div>

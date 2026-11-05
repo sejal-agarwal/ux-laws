@@ -20,13 +20,19 @@ const ART: Record<string, () => string> = {
     R(20, 26, 72, 88, "ink", 4) + L(30, 48, 82, 48, "softs") + L(30, 62, 82, 62, "softs") + L(30, 76, 70, 76, "softs") + R(30, 92, 52, 12, "ink", 2) +
     R(108, 26, 72, 88, "soft", 12) + R(118, 42, 40, 6, "inkf", 3) + R(118, 56, 52, 6, "brn", 3) + R(118, 68, 36, 6, "brn", 3) + R(118, 88, 52, 16, "acc", 8) +
     P("M168 34 l2.5 6.5 6.5 2.5 -6.5 2.5 -2.5 6.5 -2.5 -6.5 -6.5 -2.5 6.5 -2.5z", "acc star"),
-  "choice-overload": () =>
-    seq(30).map((k) => {
+  "choice-overload": () => {
+    // On hover each box takes the colour of the next one in the cycle (see `.tile` in globals.css).
+    const cycle = ["soft", "soft", "brn", "acc", "mut"];
+    const fill = { soft: "var(--line)", brn: "var(--brown)", acc: "var(--accent)", mut: "var(--muted)" };
+    return seq(30).map((k) => {
       const i = k % 6, j = Math.floor(k / 6);
-      return R(24 + i * 28, 18 + j * 23, 20, 16, ["soft", "soft", "brn", "acc", "mut"][(i * 7 + j * 3) % 5], 3);
-    }).join(""),
+      const n = (i * 7 + j * 3) % 5;
+      const next = cycle[(n + 1) % 5] as keyof typeof fill;
+      return R(20 + i * 28, 16 + j * 23, 20, 16, `${cycle[n]} tile`, 3, `style="--d:${(i + j) * 25}ms;--to:${fill[next]}"`);
+    }).join("");
+  },
   chunking: () =>
-    seq(3).map((g) => seq(3).map((i) => C(34 + g * 62 + i * 15, 66, 6, "inkf")).join("") + L(27 + g * 62, 88, 63 + g * 62, 88, "accs")).join(""),
+    seq(3).map((g) => seq(3).map((i) => C(23 + g * 62 + i * 15, 62, 6, "inkf")).join("") + L(20 + g * 62, 84, 56 + g * 62, 84, "accs")).join(""),
   "cognitive-bias": () =>
     P("M20 70 Q100 14 180 70 Q100 126 20 70Z", "ink") + C(100, 70, 24, "soft") + C(112, 64, 13, "acc") + C(117, 59, 4, "cd"),
   "cognitive-load": () =>

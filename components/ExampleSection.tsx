@@ -23,7 +23,7 @@ export default function ExampleSection({ captions = DEFAULT_CAPTIONS, children }
   const [mode, setMode] = useState<Mode>("before");
 
   return (
-    <section className="sec rise d5">
+    <section className="sec plain rise d5">
       <div className="sechead">
         <h2>Example</h2>
         <div className="seg" role="radiogroup" aria-label="Example version">
