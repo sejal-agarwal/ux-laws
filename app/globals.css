@@ -101,6 +101,13 @@ svg .star { transform-box: fill-box; transform-origin: center; transition: trans
 svg .tile { transition: fill .35s ease var(--d); }
 .lcard:not(.todo):hover svg .tile,
 .plate:hover svg .tile { fill: var(--to); }
+/* on hover the Chunking dots slide together and the three lines fuse into one */
+svg .dot, svg .rule { transform-box: fill-box; transform-origin: center; transition: translate .55s cubic-bezier(.4, 0, .2, 1), transform .55s cubic-bezier(.4, 0, .2, 1); }
+.lcard:not(.todo):hover svg .dot,
+.plate:hover svg .dot { translate: var(--dx) 0; }
+.lcard:not(.todo):hover svg .rule,
+.plate:hover svg .rule { transform: translateX(var(--lx)) scaleX(1.15); }
+@media (prefers-reduced-motion: reduce) { svg .dot, svg .rule { transition: none; } }
 .cap { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
 .cap h3 { font: 700 20px/1.2 var(--serif); margin: 0; transition: color .15s ease-out; }
 .cap span { font-size: 13px; color: var(--muted); white-space: nowrap; }
@@ -152,7 +159,7 @@ svg .tx { fill: var(--muted); font: 700 10px var(--font); letter-spacing: .08em;
 .state { font: 600 12px/1.3 var(--font); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 14px; color: var(--muted); }
 .sketch { display: grid; place-items: center; text-align: center; min-height: 180px; border: 1px dashed var(--line); border-radius: 6px; padding: 20px; color: var(--muted); }
 .sketch b { display: block; color: var(--ink); font: 600 18px/1.45 var(--font); max-width: 36ch; margin: 6px auto 0; text-wrap: balance; }
-.caption { margin: 0; font-size: 15px; color: var(--muted); max-width: 62ch; }
+.caption { margin: 0; font-size: 15px; color: var(--muted); }
 .pager { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
 .pager a { display: grid; gap: 2px; text-decoration: none; min-width: 0; max-width: 100%; }
 .pager a.r { text-align: right; margin-left: auto; }
@@ -257,3 +264,22 @@ svg .tx { fill: var(--muted); font: 700 10px var(--font); letter-spacing: .08em;
 .tier-btn:hover { background: color-mix(in srgb, var(--accent) 18%, transparent); }
 .tier-btn[aria-pressed="true"] { background: var(--accent); color: var(--bg); }
 @media (max-width: 700px) { .tiers-grid { grid-template-columns: 1fr; } }
+
+/* Chunking demo: contact card */
+/* the card is its own container, so the usual example frame around it is dropped */
+.frame:has(> .cc) { padding: 0; border: 0; min-height: 0; background: none; }
+.cc { display: grid; justify-items: center; gap: 12px; width: min(100%, 340px); margin: 0 auto; padding: 24px 22px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); text-align: center; }
+.cc-pfp { width: 84px; height: 84px; }
+.cc-fur { fill: var(--brown); stroke: var(--ink); stroke-width: 2; }
+.cc-snout { fill: var(--ink); }
+.cc-ink { fill: var(--bg); }
+.cc-line { fill: none; stroke: var(--bg); stroke-width: 2; stroke-linecap: round; }
+.cc-blush { fill: var(--c-memory); opacity: .45; }
+.cc-blob { margin: 0; font-size: 15px; line-height: 1.5; color: var(--muted); overflow-wrap: anywhere; }
+.cc-name { margin: 0; font: 700 26px/1.1 var(--serif); }
+.cc-groups { display: grid; gap: 14px; width: 100%; text-align: left; }
+.cc-groups section { padding-top: 12px; border-top: 1px solid var(--brown); }
+.cc-groups h4 { margin: 0 0 6px; font: 600 12px/1.3 var(--font); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.cc-groups dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; margin: 0; font-size: 15px; }
+.cc-groups dt { color: var(--muted); }
+.cc-groups dd { margin: 0; overflow-wrap: anywhere; }

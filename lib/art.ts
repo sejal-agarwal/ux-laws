@@ -32,7 +32,15 @@ const ART: Record<string, () => string> = {
     }).join("");
   },
   chunking: () =>
-    seq(3).map((g) => seq(3).map((i) => C(23 + g * 62 + i * 15, 62, 6, "inkf")).join("") + L(20 + g * 62, 84, 56 + g * 62, 84, "accs")).join(""),
+    // On hover the dots slide together into one tight row (--dx is how far each one moves) and the
+    // three lines stretch to meet and become one, as wide as the row of dots (--lx shifts each segment into place).
+    seq(3).map((g) =>
+      seq(3).map((i) => {
+        const cx = 23 + g * 62 + i * 15;
+        return C(cx, 62, 6, "inkf dot", `style="--dx:${100 + (g * 3 + i - 4) * 14 - cx}px"`);
+      }).join("") +
+      L(20 + g * 62, 84, 56 + g * 62, 84, "accs rule", `style="--lx:${(20.67 - 20.67 * g).toFixed(2)}px"`),
+    ).join(""),
   "cognitive-bias": () =>
     P("M20 70 Q100 14 180 70 Q100 126 20 70Z", "ink") + C(100, 70, 24, "soft") + C(112, 64, 13, "acc") + C(117, 59, 4, "cd"),
   "cognitive-load": () =>
