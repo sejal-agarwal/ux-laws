@@ -42,7 +42,8 @@ const ART: Record<string, () => string> = {
       L(20 + g * 62, 84, 56 + g * 62, 84, "accs rule", `style="--lx:${(20.67 - 20.67 * g).toFixed(2)}px"`),
     ).join(""),
   "cognitive-bias": () =>
-    P("M20 70 Q100 14 180 70 Q100 126 20 70Z", "ink") + C(100, 70, 24, "soft") + C(112, 64, 13, "acc") + C(117, 59, 4, "cd"),
+    // The light brown circle and its dot sit in one group so they can slide to the centre of the big circle on hover (`.gaze` in globals.css).
+    P("M20 70 Q100 14 180 70 Q100 126 20 70Z", "ink") + C(100, 70, 24, "soft") + `<g class="gaze">${C(108, 65, 13, "acc") + C(113, 60, 4, "cd gaze-dot")}</g>`,
   "cognitive-load": () =>
     R(58, 28, 84, 92, "ink", 6) + R(66, 94, 68, 18, "soft") + R(66, 72, 68, 18, "brn") + R(66, 50, 68, 18, "soft") + R(74, 12, 52, 26, "acc", 4),
   "doherty-threshold": () =>

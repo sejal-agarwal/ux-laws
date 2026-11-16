@@ -23,6 +23,14 @@ export async function generateMetadata({ params }: PageProps<"/laws/[slug]">): P
   return law ? { title: law.name, description: law.entry.blurb } : {};
 }
 
+/** Turns [text](https://url) in a note into a link; everything else stays plain text. */
+function withLinks(text: string) {
+  return text.split(/(\[[^\]]+\]\(https?:\/\/[^)\s]+\))/g).map((part, i) => {
+    const m = part.match(/^\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)$/);
+    return m ? <a key={i} href={m[2]} target="_blank" rel="noopener noreferrer">{m[1]}</a> : part;
+  });
+}
+
 // The page itself does not await params. Only <Law> does, behind Suspense, so the back link
 // and the skeleton are available the moment you navigate here.
 export default function LawPage({ params }: PageProps<"/laws/[slug]">) {
@@ -76,7 +84,7 @@ async function Law({ params }: Pick<PageProps<"/laws/[slug]">, "params">) {
           <h2>My notes</h2>
         </div>
         <div className="prose">
-          {entry.notes.map((n) => <p key={n}>{n}</p>)}
+          {entry.notes.map((n) => <p key={n}>{withLinks(n)}</p>)}
         </div>
       </section>
 

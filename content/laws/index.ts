@@ -4,13 +4,14 @@ import type { CatalogItem, LawEntry } from "./types";
 import aestheticUsabilityEffect from "./entries/aesthetic-usability-effect";
 import choiceOverload from "./entries/choice-overload";
 import chunking from "./entries/chunking";
+import cognitiveBias from "./entries/cognitive-bias";
 
 // To add a day: put an entry file in ./entries (drafts for every law are in ./drafts), then
 // import it here and add it to ENTRIES.
 //
 //   import chunking from "./entries/chunking";
 //   const ENTRIES: LawEntry[] = [chunking];
-const ENTRIES: LawEntry[] = [aestheticUsabilityEffect, choiceOverload, chunking];
+const ENTRIES: LawEntry[] = [aestheticUsabilityEffect, choiceOverload, chunking, cognitiveBias];
 
 export type DiscoveredLaw = CatalogItem & { entry: LawEntry; day: number };
 
