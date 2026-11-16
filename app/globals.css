@@ -160,7 +160,7 @@ svg .tx { fill: var(--muted); font: 700 10px var(--font); letter-spacing: .08em;
 .sec.plain { border-top: 0; padding-top: 0; }
 .sechead { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; }
 .sample { font-size: 13px; color: var(--muted); font-style: italic; }
-.prose { display: grid; gap: 14px; max-width: 62ch; font-size: 17px; line-height: 1.75; }
+.prose { display: grid; gap: 14px;font-size: 17px; line-height: 1.75; }
 .prose p { margin: 0; }
 .seg { display: inline-flex; gap: 22px; }
 .seg button { border: 0; border-bottom: 2px solid transparent; background: none; padding: 0 0 3px; font-weight: 600; font-size: 14px; color: var(--muted); transition: color .15s, border-color .15s; }
