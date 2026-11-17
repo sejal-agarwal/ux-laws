@@ -9,6 +9,13 @@ export type CatalogItem = {
   category: Category;
 };
 
+/** One coded example on a law's page. Add as many as you like, in any mix. */
+export type ExampleBlock = { title?: string } & (
+  | { kind: "single"; Component: ComponentType; caption?: string }
+  | { kind: "compare"; Before: ComponentType; After: ComponentType; captions?: { before: string; after: string } }
+  | { kind: "toggle"; Component: ComponentType; captions?: { before: string; after: string } }
+);
+
 /** The page you write on the day you learn a law. */
 export type LawEntry = {
   /** Must match a slug in catalog.ts. */
@@ -19,6 +26,12 @@ export type LawEntry = {
   blurb: string;
   /** Your own notes: where you spotted it, what you took from it. One string per paragraph. */
   notes: string[];
+  /** Any number of coded examples, rendered in order. Omit to show no example section at all.
+   *  Each block is `{ kind: "single", Component, caption }`, `{ kind: "compare", Before, After,
+   *  captions }` or `{ kind: "toggle", Component, captions }` (Component reads useMode()). Give a
+   *  block a `title` to name it. Components live in `<slug>.demo.tsx` ("use client" for state).
+   *  The older Compare / Demo / Example fields below still work when `examples` is not set. */
+  examples?: ExampleBlock[];
   /** Two client components shown side by side, counter-example on the left. Write them in a
    *  `<slug>.demo.tsx` file next to this one (it needs "use client" for state). */
   Compare?: { Before: ComponentType; After: ComponentType };
@@ -31,7 +44,7 @@ export type LawEntry = {
    *  `caption` for the line under it. */
   Example?: ComponentType;
   caption?: string;
-  /** What the example will be, shown until you build `Demo`. */
+  /** A private note on what the example could be. Never shown on the page. */
   sketch?: string;
   /** Captions under the example. Falls back to a generic pair. */
   captions?: { before: string; after: string };

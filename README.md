@@ -18,16 +18,25 @@ The journal starts empty: 0 of 30 discovered. `content/laws/drafts/` holds 14 re
    - `date` is the day you learned it (`YYYY-MM-DD`).
    - `blurb` is the one-or-two-sentence definition.
    - `notes` is one string per paragraph. Delete `sample: true` once the notes are yours.
-   - `sketch` describes the example you plan to build. It shows until you add a `Demo`.
+   - `examples` holds your coded examples (see below). Leave it out and the page shows no example section.
+   - `sketch` is an optional private note about an example idea. It is never shown.
 3. Import the file in `content/laws/index.ts` and add it to `ENTRIES`.
 
 The gallery card, the law page, the calendar and the progress bar all update from that.
 
 ## Build the example
 
-**Side by side.** Put two components in a `<slug>.demo.tsx` file next to the entry (it starts with `"use client"` so it can hold state), export them as `Before` and `After`, and set `Compare: { Before, After }` in the entry. See `content/laws/entries/aesthetic-usability-effect.ts` and its `.demo.tsx`. Add `captions: { before, after }` for a line under each side. Styles for new examples go in `app/globals.css`.
+Put components in a `<slug>.demo.tsx` file next to the entry (it starts with `"use client"` so it can hold state), then list them in `examples`. Add as many blocks as you like, in any mix; each can have a `title`:
 
-**Behind a toggle.** Make a client component in `components/demos/` (see `HickDemo.tsx` and `FittsDemo.tsx`). Call `useMode()` from `components/ExampleSection.tsx` to get `"before"` (counter-example) or `"after"` (applied), render the matching version, then set `Demo` in the entry file. Optional `captions: { before, after }` appear under the example.
+```ts
+examples: [
+  { kind: "single", Component: ContactCard, caption: "One component, shown on its own." },
+  { kind: "compare", Before, After, captions: { before: "...", after: "..." } },   // side by side
+  { kind: "toggle", Component: MyDemo, captions: { before: "...", after: "..." } }, // Counter-example / Applied switch; MyDemo calls useMode()
+],
+```
+
+`useMode()` comes from `components/ExampleSection.tsx`. Styles for new examples go in `app/globals.css`. The older `Example`, `Compare` and `Demo` fields still work if `examples` is not set.
 
 ## Where things live
 

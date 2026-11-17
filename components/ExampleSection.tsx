@@ -16,16 +16,17 @@ const DEFAULT_CAPTIONS = {
 
 type Props = {
   captions?: { before: string; after: string };
+  title?: string;
   children: ReactNode;
 };
 
-export default function ExampleSection({ captions = DEFAULT_CAPTIONS, children }: Props) {
+export default function ExampleSection({ captions = DEFAULT_CAPTIONS, title = "Example", children }: Props) {
   const [mode, setMode] = useState<Mode>("before");
 
   return (
     <section className="sec plain rise d5">
       <div className="sechead">
-        <h2>Example</h2>
+        <h2>{title}</h2>
         <div className="seg" role="radiogroup" aria-label="Example version">
           <button role="radio" aria-checked={mode === "before"} onClick={() => setMode("before")}>Counter-example</button>
           <button role="radio" aria-checked={mode === "after"} onClick={() => setMode("after")}>Applied</button>

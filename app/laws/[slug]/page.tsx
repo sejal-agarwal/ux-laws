@@ -5,9 +5,9 @@ import { Suspense } from "react";
 import Comparison from "@/components/Comparison";
 import ExampleSection from "@/components/ExampleSection";
 import LawArt from "@/components/LawArt";
-import Sketch from "@/components/Sketch";
 import { getDiscovered } from "@/content/laws";
 import { CATALOG } from "@/content/laws/catalog";
+import type { ExampleBlock, LawEntry } from "@/content/laws/types";
 import { categoryStyle } from "@/lib/categories";
 import { formatLong } from "@/lib/dates";
 
@@ -29,6 +29,15 @@ function withLinks(text: string) {
     const m = part.match(/^\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)$/);
     return m ? <a key={i} href={m[2]} target="_blank" rel="noopener noreferrer">{m[1]}</a> : part;
   });
+}
+
+/** The entry's examples. Falls back to the older Example / Compare / Demo fields. No example means no section. */
+function examplesOf(entry: LawEntry): ExampleBlock[] {
+  if (entry.examples) return entry.examples;
+  if (entry.Example) return [{ kind: "single", Component: entry.Example, caption: entry.caption }];
+  if (entry.Compare) return [{ kind: "compare", ...entry.Compare, captions: entry.captions }];
+  if (entry.Demo) return [{ kind: "toggle", Component: entry.Demo, captions: entry.captions }];
+  return [];
 }
 
 // The page itself does not await params. Only <Law> does, behind Suspense, so the back link
@@ -61,7 +70,6 @@ async function Law({ params }: Pick<PageProps<"/laws/[slug]">, "params">) {
   if (!law) notFound();
 
   const { entry } = law;
-  const { Compare, Demo, Example } = entry;
 
   return (
     <>
@@ -88,21 +96,28 @@ async function Law({ params }: Pick<PageProps<"/laws/[slug]">, "params">) {
         </div>
       </section>
 
-      {Example ? (
-        <section className="sec plain rise d5">
-          <div className="sechead">
-            <h2>Example</h2>
-          </div>
-          <div className="frame"><Example /></div>
-          {entry.caption && <p className="caption">{entry.caption}</p>}
-        </section>
-      ) : Compare ? (
-        <Comparison before={<Compare.Before />} after={<Compare.After />} captions={entry.captions} />
-      ) : (
-        <ExampleSection key={slug} captions={entry.captions}>
-          {Demo ? <Demo /> : <Sketch idea={entry.sketch} />}
-        </ExampleSection>
-      )}
+      {examplesOf(entry).map((block, i) => {
+        const title = block.title ?? (i === 0 ? "Example" : `Example ${i + 1}`);
+        if (block.kind === "compare") {
+          return <Comparison key={i} title={title} before={<block.Before />} after={<block.After />} captions={block.captions} />;
+        }
+        if (block.kind === "toggle") {
+          return (
+            <ExampleSection key={`${slug}-${i}`} title={title} captions={block.captions}>
+              <block.Component />
+            </ExampleSection>
+          );
+        }
+        return (
+          <section key={i} className="sec plain rise d5">
+            <div className="sechead">
+              <h2>{title}</h2>
+            </div>
+            <div className="frame"><block.Component /></div>
+            {block.caption && <p className="caption">{block.caption}</p>}
+          </section>
+        );
+      })}
 
       {entry.exampleNotes?.some((n) => n.trim()) && (
         <section className="sec plain rise d5">

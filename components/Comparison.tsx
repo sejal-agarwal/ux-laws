@@ -4,15 +4,16 @@ type Props = {
   before: ReactNode;
   after: ReactNode;
   captions?: { before: string; after: string };
+  title?: string;
 };
 
 /** The counter-example and the applied version next to each other. A server component:
  *  the two sides are the entry's own client components, passed in as elements. */
-export default function Comparison({ before, after, captions }: Props) {
+export default function Comparison({ before, after, captions, title = "Example" }: Props) {
   return (
     <section className="sec plain rise d5">
       <div className="sechead">
-        <h2>Example</h2>
+        <h2>{title}</h2>
       </div>
       <div className="compare">
         <figure className="pane">
