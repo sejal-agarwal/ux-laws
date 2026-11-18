@@ -45,7 +45,13 @@ const ART: Record<string, () => string> = {
     // The light brown circle and its dot sit in one group so they can slide to the centre of the big circle on hover (`.gaze` in globals.css).
     P("M20 70 Q100 14 180 70 Q100 126 20 70Z", "ink") + C(100, 70, 24, "soft") + `<g class="gaze">${C(108, 65, 13, "acc") + C(113, 60, 4, "cd gaze-dot")}</g>`,
   "cognitive-load": () =>
-    R(58, 28, 84, 92, "ink", 6) + R(66, 94, 68, 18, "soft") + R(66, 72, 68, 18, "brn") + R(66, 50, 68, 18, "soft") + R(74, 12, 52, 26, "acc", 4),
+    // On hover a ripple runs up the stack: each tile swells and settles in turn, bottom first
+    // (`.ripple` in globals.css, --d is the delay).
+    R(58, 28, 84, 92, "ink", 6) +
+    R(66, 94, 68, 18, "soft ripple", 3, 'style="--d:0s"') +
+    R(66, 72, 68, 18, "brn ripple", 3, 'style="--d:.12s"') +
+    R(66, 50, 68, 18, "soft ripple", 3, 'style="--d:.24s"') +
+    R(74, 12, 52, 26, "acc ripple", 4, 'style="--d:.36s"'),
   "doherty-threshold": () =>
     C(100, 74, 42, "ink") + R(92, 20, 16, 7, "inkf", 2) + P("M100 74 L100 40 A34 34 0 0 1 134 74Z", "acc") + L(100, 74, 100, 40, "ink") + T(100, 134, "400 MS"),
   "fitts-law": () =>

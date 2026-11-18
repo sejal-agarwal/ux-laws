@@ -64,7 +64,7 @@ export default function Gallery({ items }: { items: GalleryItem[] }) {
             l.day === null ? (
               <div key={l.slug} className="lcard todo" style={categoryStyle(l.category)} aria-disabled="true">
                 <div className="art"><LawArt slug={l.slug} /></div>
-                <div className="cap"><h3>{l.name}</h3><span>Not yet</span></div>
+                <div className="cap"><h3>{l.name}</h3></div>
               </div>
             ) : (
               <Link key={l.slug} href={`/laws/${l.slug}`} className="lcard" style={categoryStyle(l.category)}>

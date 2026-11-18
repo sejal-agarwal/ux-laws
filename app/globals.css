@@ -119,6 +119,13 @@ svg .gaze, svg .gaze-dot { transition: translate .45s cubic-bezier(.4, 0, .2, 1)
 .lcard:not(.todo):hover svg .gaze-dot,
 .plate:hover svg .gaze-dot { translate: -5px 5px; }
 @media (prefers-reduced-motion: reduce) { svg .gaze, svg .gaze-dot { transition: none; } }
+/* the tiles on Cognitive Load ripple upwards when hovered: each one swells and settles a moment after the one below */
+/* small on purpose: the tiles are 4 units apart, so a swell of 1.5 units per side never makes them touch */
+@keyframes ripple { 40% { transform: scale(1.05, 1.16); } }
+svg .ripple { transform-box: fill-box; transform-origin: center; }
+.lcard:not(.todo):hover svg .ripple,
+.plate:hover svg .ripple { animation: ripple .6s ease-in-out var(--d) both; }
+@media (prefers-reduced-motion: reduce) { .lcard:hover svg .ripple, .plate:hover svg .ripple { animation: none; } }
 .cap { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
 .cap h3 { font: 700 20px/1.2 var(--serif); margin: 0; transition: color .15s ease-out; }
 .cap span { font-size: 13px; color: var(--muted); white-space: nowrap; }
